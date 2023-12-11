@@ -4,6 +4,77 @@
 - **What is GitHub?**
   - Describe GitHub as a web-based hosting service for version control using Git, primarily used for code.
 
+---
+### SSH Connection with GitHub Guide
+
+## Introduction
+SSH (Secure Shell) is a protocol used to securely log into remote systems. GitHub supports SSH for securely pushing and pulling from repositories. This guide explains how to set up an SSH connection with GitHub.
+
+## Setting Up SSH Keys
+
+### 1. Check for Existing SSH Keys
+First, check if you already have SSH keys on your local machine:
+```bash
+ls -al ~/.ssh
+```
+Look for files named `id_rsa.pub` or `id_ed25519.pub`. If you see such files, you can skip the key generation step.
+
+### 2. Generate a New SSH Key
+If you don't have an SSH key, generate one using the following command:
+```bash
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+```
+- Replace `your_email@example.com` with your GitHub email address.
+- When prompted, press `Enter` to accept the default file location and file name.
+- Set a passphrase for extra security (optional).
+
+### 3. Add SSH Key to the SSH Agent
+Start the ssh-agent and add your SSH key:
+```bash
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+```
+- Use `~/.ssh/id_ed25519` if you generated an ED25519 key.
+
+## Adding Your SSH Key to Your GitHub Account
+
+### 1. Copy the SSH Key to Your Clipboard
+For macOS:
+```bash
+pbcopy < ~/.ssh/id_rsa.pub
+```
+For Linux (requires xclip):
+```bash
+xclip -sel clip < ~/.ssh/id_rsa.pub
+```
+For Windows (using Git Bash):
+```bash
+clip < ~/.ssh/id_rsa.pub
+```
+
+### 2. Add SSH Key to GitHub
+- Go to [GitHub](https://github.com/settings/keys).
+- Click on **New SSH key** or **Add SSH key**.
+- Paste your key into the "Key" field.
+- Add a descriptive title.
+- Click **Add SSH key**.
+
+## Using SSH with GitHub
+
+### 1. Clone a Repository Using SSH
+Replace `username` and `repo` with the actual username and repository name:
+```bash
+git clone git@github.com:username/repo.git
+```
+
+### 2. Switch Existing Repository to Use SSH
+Change the repository's remote URL to SSH:
+```bash
+git remote set-url origin git@github.com:username/repo.git
+```
+
+---
+
 ### Basic Git and GitHub Workflow
 
 #### Step 1: Install and Configure Git
